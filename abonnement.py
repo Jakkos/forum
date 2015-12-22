@@ -3,8 +3,14 @@
 # -*- coding: utf8 -*-
 
 from base import Base
-import time
-ts=time.time()
+import datetime
+
+ts = time.time()
+
+
+dateMoinsUneHeure = datetime.date.today() - datetime.timedelta(hours=1)
+dateMoinsUneHeureTimestamp = dateMoinsUneHeure.strftime("%s")
+
 
 
 class Abonnement:
