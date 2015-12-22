@@ -41,23 +41,38 @@ class ThreadEmission(threading.Thread):
 # Test des arguments
 # 3 arguments : -p pseudo password
 if len(sys.argv) != 4:
-	print 'Echec, le nombre d arguments est incorrect.\nPour vous connecter, vous devez respecter la synthaxe suivante :\npython forum.py -p votrePseudo votreMotDePasse'
+	print 'Echec, le nombre d arguments est incorrect.\nPour vous connecter, vous devez respecter la synthaxe suivante :\npython forum.py -action votrePseudo votreMotDePasse'
 	sys.exit(1)
 # Verification du premier argument -p
-if sys.argv[1] != '-p':
-	print 'Echec, le premier argument <',sys.argv[1],'> n est pas correct.\nPour vous connecter, vous devez respecter la synthaxe suivante :\npython forum.py -p votrePseudo votreMotDePasse'
+if sys.argv[1] != '-p' and sys.argv[1] != '-c':
+	print 'Echec, le premier argument <',sys.argv[1],'> n est pas correct.\n -p permet de vous connecter et -c de creer un compte'
 	sys.exit(1)
-# Verification du deuxieme et du troisieme argument (login/password)
-utilisateur = Utilisateur()
-res = utilisateur.connection_forum(sys.argv[2])
-if len(res) == 0:
-	print 'Echec, le pseudo renseigne est incorrect.'
-	sys.exit(1)
-else:
-	password = res[0][2]
-	if sys.argv[3] != password:
-		print 'Echec, le mot de passe est incorrect.'
+
+# Si -p, connection donc verification des informations
+if sys.argv[1] == '-p':
+	# Verification du deuxieme et du troisieme argument (login/password)
+	utilisateur = Utilisateur()
+	res = utilisateur.connection_forum(sys.argv[2])
+	if len(res) == 0:
+		print 'Echec, le pseudo renseigne est incorrect.'
 		sys.exit(1)
+	else:
+		password = res[0][2]
+		if sys.argv[3] != password:
+			print 'Echec, le mot de passe est incorrect.'
+			sys.exit(1)
+
+# Si -c, creation de compte donc insertion des informations
+if sys.argv[1] == '-c':
+	# Verification du deuxieme et du troisieme argument (login/password)
+	utilisateur = Utilisateur()
+	res = utilisateur.connection_forum(sys.argv[2])
+	if len(res) != 0:
+		print 'Echec, pseudo deja utilise.'
+		sys.exit(1)
+	else:
+		utilisateur.insert(sys.argv[2], sys.argv[3])
+
 # Connexion au socket
 connexion=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 try:

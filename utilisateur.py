@@ -28,12 +28,13 @@ class Utilisateur:
 		res = "Merci de votre visite " + username + " ! A bientot !"
 		return res
 
-	def insert(username,passw):
+	def insert(self, username,passw):
 		base = Base()
 		db = base.connection()
 		cursor = db.cursor()
-		query = "INSERT INTO utilisateur(pseudo,password) VALUES("+username+","+passw+")"
-		lines = cursor.execute(query)
+		params = (username, passw)
+		requete = "INSERT INTO utilisateur(pseudo,password) VALUES(?,?)"
+		lines = cursor.execute(requete, params)
 		db.commit()
 		data = cursor.fetchall()
 		db.close()
