@@ -8,6 +8,17 @@ PORT=46000
 import socket
 import sys
 import threading
+
+
+import logging
+formatter = logging.Formatter("%(asctime)s -- %(name)s -- %(levelname)s -- %(message)s")
+handler_file = logging.FileHandler("save.log",mode = "a",encoding="utf-8")
+handler_file.setFormatter(formatter)
+handler_file.setLevel(logging.INFO)
+logger = logging.getLogger("servforum")
+logger.setLevel(logging.INFO)
+logger.addHandler(handler_file)
+
 from base import Base
 from unforum import UnForum
 
@@ -74,14 +85,17 @@ class ThreadClient(threading.Thread):
 			# 1- Creer un nouveau forum
 			elif msgClient == "1\n":
 				msg = "Entrer le theme de votre forum en respectant la synthaxe suivante (newf>La jardinerie c'est ma passion !)\n"
+				logger.info("tentative creation forum")
 				client.send(msg.encode("Utf8"))
 			# newf>
 			elif msgClient[0:5] == "newf>":
 				if len(msgClient)<12:
+					logger.warning("probleme creation forum (titre)")
 					msg = "Erreur, le theme du forum doit contenir au moins 5 caracteres !\nRessayer :"
 				else:
 					forum = UnForum()
 					forum.insert(msgClient[5:len(msgClient)-1])
+					logger.info("creation forum : %s",msgClient[5:len(msgClient)-1])
 					msg = "Forum cree !\n\nMenu :\n1- Creer un nouveau forum\n2- Afficher tous les forums\n3- Afficher les forums preferes\n4- Se deconnecter\n\nEntrer 1,2,3 ou 4 :"
 				client.send(msg.encode("Utf8"))
 			# 2- Afficher tous les forums
