@@ -1,3 +1,9 @@
 2015-12-22 15:29:18,189 -- test_log -- WARNING -- probleme creation forum (titre)
 2015-12-22 15:29:33,404 -- test_log -- INFO -- creation forum : ordinateurs pas chers
 2015-12-22 15:30:47,953 -- test_log -- INFO -- creation forum : discussion tablettes samsung
+2015-12-22 18:09:08,248 -- servforum -- INFO -- tentative creation forum
+2015-12-22 18:10:46,019 -- servforum -- INFO -- tentative creation forum
+2015-12-22 18:10:51,330 -- servforum -- INFO -- tentative creation forum
+2015-12-22 18:13:25,052 -- servforum -- INFO -- tentative creation forum
+2015-12-22 18:14:17,146 -- servforum -- INFO -- tentative creation forum
+2015-12-22 18:16:43,312 -- servforum -- INFO -- tentative creation forum
