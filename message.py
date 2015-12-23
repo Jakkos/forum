@@ -22,26 +22,23 @@ class Message:
 		db = base.connection()
 		cursor = db.cursor()
 		query = "INSERT INTO message(id_utilisateur,id_forum,texte,date_message) VALUES("+idu+","+idf+","+txt+","+time.strftime('%d/%m/%y %H:%M',time.localtime())+")"
-		lines = cursor.execute(query)
+		cursor.execute(query)
 		db.commit()
-		data = cursor.fetchall()
+		cursor.close()
 		db.close()
-		return data
+		return cursor
 
 	def getAllMessagesByForum(idf):
 		base = Base()
 		db = base.connection()
 		cursor = db.cursor()
-		query = "SELECT * from message WHERE id_forum =" + idf
-		lines = cursor.execute(query)
+		query = "SELECT * from message WHERE id_forum ="+idf
+		cursor.execute(query)
 		res = []
-		i = 0
-		while True:
-			i =+ 1
-			row = cursor.fetchone()
-			if row == None:
-				break
-			res[i] = row
-			
+		j = 0
+		for i in cursor:
+			res[j] = i
+			j += 1
+		cursor.close()
 		db.close()
 		return res

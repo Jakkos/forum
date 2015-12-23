@@ -16,7 +16,7 @@ id_message INT(3) NOT NULL AUTOINCREMENT,
 id_utilisateur INT(3) NOT NULL,
 id_forum INT(3) NOT NULL,
 texte CHAR(50) NOT NULL,
-date_message DATETIME NOT NULL,
+date_message INT(12) NOT NULL,
 PRIMARY KEY(id_message),
 FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur)
 FOREIGN KEY(id_forum) REFERENCES forum(id_forum)
@@ -25,6 +25,7 @@ FOREIGN KEY(id_forum) REFERENCES forum(id_forum)
 CREATE TABLE abonnement(
 id_utilisateur INT(3) NOT NULL,
 id_forum INT(3) NOT NULL,
+last_visite INT(12) NOT NULL,
 PRIMARY KEY(id_utilisateur,id_forum),
 FOREIGN KEY(id_utilisateur) REFERENCES utilisateur(id_utilisateur),
 FOREIGN KEY(id_forum) REFERENCES forum(id_forum)
