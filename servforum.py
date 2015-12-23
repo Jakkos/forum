@@ -11,6 +11,19 @@ import threading
 import time
 import datetime
 import posix_ipc
+#configuration de la date pour la recherche 
+import datetime
+
+ts = time.time()
+
+
+dateMoinsUneHeure = datetime.date.today() - datetime.timedelta(hours=1)
+dateMoinsUneHeureTimestamp = dateMoinsUneHeure.strftime("%s")
+
+dateConsultationForum = datetime.date.today()
+dateConsultationForumTimestamp = dateConsultationForum.strftime("%s")
+
+""" update abonnement set last_visite = dateConsultationForumTimestamp where id_utilisateur = idu and id_forum = idforum """
 
 #configuration des logs
 import logging
@@ -141,6 +154,15 @@ class ThreadClient(threading.Thread):
 				for i in cursor:
 					client.send(i[1].encode("Utf8"))
 				logger.info("recuperation de la liste des forums par : %s",message[5:len(message)-1])
+			# 5- Afficher les forums ou l'utilisateur a des messages non lus.
+			elif message =="5":
+				base=Base()
+				db=base.connection()
+				cursor=db.cursor()
+				query="SELECT * from forum WHERE id_forum IN (SELECT id_forum from abonnement WHERE id_utilisateur="+idu+" AND last_visite<"+dateMoinsUneHeureTimestamp+")"
+				cursor.execute(query)
+				for i in cursor:
+					client.send(i[1].encode("Utf8"))
 			# 4- Se deconnecter
 			elif not message or message == "4":
 				# la aussi il faut couper la connection plus correctement
@@ -177,5 +199,5 @@ while 1:
 	conn_client[it]=connexion
 	print("Client %s connecte, adresse IP %s, port %s." %\
 		(it, adresse[0], adresse[1]))
-	msg="\nMenu :\n1- Creer un nouveau forum\n2- Afficher tous les forums\n3- Afficher les forums preferes\n4- Se deconnecter\n\nEntrer 1,2,3 ou 4 :" 
+	msg="\nMenu :\n1- Creer un nouveau forum\n2- Afficher tous les forums\n3- Afficher les forums preferes\n4- Se deconnecter\n5- Afficher forums avec messages non lus\n\nEntrer 1,2,3 ou 4 :" 
 	connexion.send(msg.encode("Utf8"))
