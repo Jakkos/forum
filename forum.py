@@ -8,6 +8,9 @@ PORT=46000
 import socket
 import sys
 import threading
+import posix_ipc
+
+#import des fonctions de base de donnees
 from base import Base
 from utilisateur import Utilisateur
 
@@ -33,10 +36,20 @@ class ThreadEmission(threading.Thread):
 
 	def run(self):
 		while True:
+
 			msge=sys.stdin.readline()
-			self.connexion.send(msge.encode("Utf8"))
+			msge = msge.rstrip('\n')
+			# file
+			pseudo = sys.argv[2]
+			mq = posix_ipc.MessageQueue("operation_file",posix_ipc.O_CREAT)
+			# priorite a mettre en place
+			mq.send(msge,priority=2)
+			# self.connexion.send(msge.encode("Utf8"))
 			# Si le dernier message est 4 donc deconnexion, on arrete le thread
-			if msge and msge == "4\n":
+			if msge and msge == "4":
+				# /!\.................................../!\
+				#a mon avis il faut couper les sockets ou qqch la
+				# /!\.................................../!\
 				break
 # Test des arguments
 # 3 arguments : -p pseudo password
