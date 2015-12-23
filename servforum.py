@@ -9,16 +9,8 @@ import socket
 import sys
 import threading
 import time
-import datetime
-
-ts = time.time()
 
 
-dateMoinsUneHeure = datetime.date.today() - datetime.timedelta(hours=1)
-dateMoinsUneHeureTimestamp = dateMoinsUneHeure.strftime("%s")
-
-date1 = datetime.date.today()
-date2 = datetime.date.today() - datetime.timedelta(days=1)
 
 
 

@@ -62,7 +62,7 @@ class Abonnement:
 """  Ici c'est la fonction qui va récuperer la liste des forums ou l'utilisateur possède des messages non lus
 	Sachant qu'un forum dont le message non lu est un forum qui se trouve dans abonnement et dont la date dans last_visite est inférieur à la date actuelle.
 	utiliser la variable ts définie plus haut pour récupérer le temps actuel qui sera à comparer avec la date de l'utilisateur.
-
+"""
 	def getAllForumAboNonLus(idu):
 		base=Base()
 		db=base.connection()
@@ -79,4 +79,4 @@ class Abonnement:
 
 		db.close()
 		return res
-		"""
+		
