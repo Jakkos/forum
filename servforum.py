@@ -35,14 +35,6 @@ logger = logging.getLogger("servforum")
 logger.setLevel(logging.INFO)
 logger.addHandler(handler_file)
 
-#gestion des dates
-ts = time.time()
-
-dateMoinsUneHeure = datetime.date.today() - datetime.timedelta(hours=1)
-dateMoinsUneHeureTimestamp = dateMoinsUneHeure.strftime("%s")
-
-date1 = datetime.date.today()
-date2 = datetime.date.today() - datetime.timedelta(days=1)
 
 #import des fonctions de base de donnees
 from base import Base
@@ -121,8 +113,8 @@ class ThreadClient(threading.Thread):
 			if message == "1":
 				msg = "Entrer le theme de votre forum en respectant la synthaxe suivante (newf>La jardinerie c'est ma passion !)\n"
 				# c'est quoi ces print ?
-				print date1
-				print date2
+				
+				print dateMoinsUneHeureTimestamp
 				logger.info("tentative creation forum")
 				client.send(msg.encode("Utf8"))
 				try:
